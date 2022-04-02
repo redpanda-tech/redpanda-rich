@@ -5,7 +5,8 @@ block_master=[""]*16
 location=block_id[0]
 money=10000
 class Player:
-    def __init__(self,location):
+    def __init__(self,money,location):
+        self.money=money
         self.location=location%16
     def dice(self):
         dice_number=randint(1,6)
@@ -13,6 +14,10 @@ class Player:
     def move(self,number):
         location_now=self.location+number
         return location_now
+    def get_money(self,number):
+        self.money=self.money+1000
+    def lose_money(self,number):
+        self.money=self.money-1000
 class Game:
     def __init__(self,name,money,location):
         self.location=location%16
@@ -49,17 +54,12 @@ class Game:
             choise=input("地块:"+str(self.location)+"，需要购买吗?(y/n)")
             if choise=="y":
                 self.set_block(location)
+                print(block)
             else:
                 sleep(0.01)
         else:
             money=self.money-1000
             print("玩家"+name+"剩余"+str(money))
-while True:
-    a=Player(location)
-    number=a.dice()
-    location=a.move(number)
-    pa=Game("a",money,location)
-    b=Player(location)
-    number=b.dice()
-    location=b.move(number)
-    pb=Game("b",money,location)
+a=Player(money,location)
+a.get_money(1000)
+print(a.money)
